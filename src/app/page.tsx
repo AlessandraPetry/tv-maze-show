@@ -1,101 +1,97 @@
-import Image from "next/image";
+"use client";
+
+import { CardInfos } from "@/components/CardInfos";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [selectedSeason, setSelectedSeason] = useState(1);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const show = {
+    name: "The Powerpuff Girls",
+    description:
+      "The city of Townsville may be a beautiful, bustling metropolis, but don't be fooled! There's evil afoot! And only three things can keep the bad guys at bay: Blossom, Bubbles and Buttercup, three super-powered little girls, known to their fans (and villains everywhere) as The Powerpuff Girls. Juggling school, bedtimes, and beating up giant monsters may be daunting, but together the Powerpuff Girls are up to the task. Battling a who's who of evil, they show what it really means to \"fight like a girl.\"",
+    image:
+      "https://static.tvmaze.com/uploads/images/original_untouched/60/151357.jpg",
+  };
+
+  const episodeList = [
+    {
+      id: 657308,
+      name: "Escape from Monster Island",
+      season: 1,
+      number: 1,
+    },
+    {
+      id: 657309,
+      name: "Crash Course",
+      season: 1,
+      number: 2,
+    },
+    {
+      id: 657310,
+      name: "New Beginning",
+      season: 2,
+      number: 1,
+    },
+  ];
+
+  const separatedEpisodes = episodeList.reduce((acc, episode) => {
+    const { season } = episode;
+    if (!acc[season]) {
+      acc[season] = [];
+    }
+    acc[season].push(episode);
+    return acc;
+  }, {} as Record<number, typeof episodeList>);
+
+  const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSeason(Number(event.target.value));
+  };
+
+  return (
+    <div className="min-h-screen p-5 sm:p-10 lg:p-20">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <CardInfos
+          description={show.description}
+          imageSrc={show.image}
+          title={show.name}
+        />
+
+        <div className="flex flex-col bg-white border-l border-t border-[#efefef] rounded-3xl shadow-[2px_2px_40px_#dadada] p-16 w-full">
+          <div className="flex flex-col justify-between content-center lg:flex-row">
+            <h2 className="text-2xl font-extrabold">Episodes:</h2>
+
+            <select
+              id="season-select"
+              value={selectedSeason}
+              onChange={handleSeasonChange}
+              className="mt-6 p-3 border border-gray-400 rounded bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-300 md:w-2/4 lg:w-3/12 lg:mt-0"
+            >
+              {Object.keys(separatedEpisodes).map((season) => (
+                <option key={season} value={season}>
+                  Season {season}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mt-6">
+            <ul className="list-disc pl-5 mt-4 space-y-2 ">
+              {separatedEpisodes[selectedSeason]?.map((episode) => (
+                <li
+                  key={episode.id}
+                  className="hover:underline leading-6 visited:text-purple-500"
+                >
+                  <Link href={`/episode/${episode.id}`} passHref>
+                    <b>Episode {episode.number}:</b> {episode.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
