@@ -1,61 +1,43 @@
 "use client";
 
-import { CardInfos } from "@/components/CardInfos";
 import Link from "next/link";
 import { useState } from "react";
+
+import { CardInfos } from "@/components/CardInfos";
+import { useFetchShow } from "@/hooks/useFetchShow";
+import { Episode } from "@/types";
 
 export default function Home() {
   const [selectedSeason, setSelectedSeason] = useState(1);
 
-  const show = {
-    name: "The Powerpuff Girls",
-    description:
-      "The city of Townsville may be a beautiful, bustling metropolis, but don't be fooled! There's evil afoot! And only three things can keep the bad guys at bay: Blossom, Bubbles and Buttercup, three super-powered little girls, known to their fans (and villains everywhere) as The Powerpuff Girls. Juggling school, bedtimes, and beating up giant monsters may be daunting, but together the Powerpuff Girls are up to the task. Battling a who's who of evil, they show what it really means to \"fight like a girl.\"",
-    image:
-      "https://static.tvmaze.com/uploads/images/original_untouched/60/151357.jpg",
-  };
+  const { data: show, error, isLoading } = useFetchShow();
 
-  const episodeList = [
-    {
-      id: 657308,
-      name: "Escape from Monster Island",
-      season: 1,
-      number: 1,
-    },
-    {
-      id: 657309,
-      name: "Crash Course",
-      season: 1,
-      number: 2,
-    },
-    {
-      id: 657310,
-      name: "New Beginning",
-      season: 2,
-      number: 1,
-    },
-  ];
+  const episodes = show?._embedded.episodes || [];
 
-  const separatedEpisodes = episodeList.reduce((acc, episode) => {
+  const separatedEpisodes = episodes.reduce((acc, episode) => {
     const { season } = episode;
     if (!acc[season]) {
       acc[season] = [];
     }
     acc[season].push(episode);
     return acc;
-  }, {} as Record<number, typeof episodeList>);
+  }, {} as Record<number, Episode[]>);
 
   const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSeason(Number(event.target.value));
   };
 
+  if (isLoading) return <p className="text-center">Loading...</p>;
+  if (error instanceof Error)
+    return <p className="text-center text-red-500">Error: {error.message}</p>;
+
   return (
     <div className="min-h-screen p-5 sm:p-10 lg:p-20">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <CardInfos
-          description={show.description}
-          imageSrc={show.image}
-          title={show.name}
+          description={show?.summary}
+          imageSrc={show?.image.original}
+          title={show?.name}
         />
 
         <div className="flex flex-col bg-white border-l border-t border-[#efefef] rounded-3xl shadow-[2px_2px_40px_#dadada] p-16 w-full">
