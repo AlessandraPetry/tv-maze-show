@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CardInfos } from "./CardInfos";
 import Link from "next/link";
-import { useFetchShow } from "@/hooks/useFetchShow";
-import { useStoreProvider } from "@/app/providers/store-provider";
+import { useEffect, useState } from "react";
 
-export const ShowInfos = () => {
+import { useStoreProvider } from "@/app/providers/store-provider";
+import { CardInfos } from "@/components/CardInfos";
+import { useFetchShow } from "@/hooks/useFetchShow";
+
+const Home = () => {
   const { data, error } = useFetchShow();
 
   const [selectedSeason, setSelectedSeason] = useState(1);
@@ -76,3 +77,5 @@ export const ShowInfos = () => {
     </div>
   );
 };
+
+export default Home;

@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import { fetchShow } from "@/hooks/useFetchShow";
-import { ShowInfos } from "@/components/ShowInfos";
+import Home from "./home";
 
 export default async function HomePage() {
   // Prefetch with React Query on server side. React Query will cache the data
@@ -18,7 +18,7 @@ export default async function HomePage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ShowInfos />
+      <Home />
     </HydrationBoundary>
   );
 }
