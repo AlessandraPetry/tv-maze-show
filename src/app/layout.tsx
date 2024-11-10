@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { DynaPuff, Noto_Sans } from "next/font/google";
 
 import "./globals.css";
 
@@ -7,15 +7,16 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Providers from "./providers";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const dinaPuffInit = DynaPuff({
+  subsets: ["latin"],
+  weight: ["600"],
+  variable: "--font-dina-puff",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const notoSansfInit = Noto_Sans({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-noto-sans",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${dinaPuffInit.variable} ${notoSansfInit.variable} antialiased`}
       >
         <Header />
         <Providers>{children}</Providers>

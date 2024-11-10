@@ -19,3 +19,16 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.dina-puff-font {
+  font-family: var(--font-dina-puff);
+}
+
+.noto-sans-font {
+  font-family: var(--font-noto-sans);
+}
+
+.noto-sans-font-bold {
+  font-family: var(--font-noto-sans);
+  font-weight: 600;
+}

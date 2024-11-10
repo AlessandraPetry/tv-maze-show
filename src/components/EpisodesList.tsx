@@ -19,7 +19,7 @@ const EpidodesList = () => {
   return (
     <div className="flex flex-col bg-white border-l border-t border-[#efefef] rounded-3xl shadow-[2px_2px_40px_#dadada] p-16 w-full">
       <div className="flex flex-col justify-between content-center lg:flex-row">
-        <h2 className="text-2xl font-extrabold">Episodes:</h2>
+        <h2 className="text-2xl font-extrabold dina-puff-font">Episodes:</h2>
 
         <select
           id="season-select"
@@ -42,7 +42,11 @@ const EpidodesList = () => {
               key={episode.id}
               className="hover:underline leading-6 visited:text-purple-500"
             >
-              <Link href={`/episode/${episode.id}`} passHref>
+              <Link
+                href={`/episode/${episode.id}`}
+                passHref
+                className="noto-sans-font"
+              >
                 <b>Episode {index + 1}:</b> {episode.name}
               </Link>
             </li>

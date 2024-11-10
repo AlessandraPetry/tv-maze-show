@@ -18,8 +18,11 @@ export const CardInfos = ({ description, imageSrc, title }: CardProps) => {
         height={200}
       />
       <div className="flex flex-col mt-6 lg:mx-10 lg:mt-0">
-        <h1 className="font-bold mb-8 text-3xl">{title}</h1>
-        <p dangerouslySetInnerHTML={{ __html: description || "" }} />
+        <h1 className="font-bold mb-8 text-3xl dina-puff-font">{title}</h1>
+        <p
+          className="noto-sans-font"
+          dangerouslySetInnerHTML={{ __html: description || "" }}
+        />
       </div>
     </div>
   );
