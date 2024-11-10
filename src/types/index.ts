@@ -7,6 +7,12 @@ type Rating = {
   average: number;
 };
 
+export type ShowWithEpisodes = Show & {
+  _embedded: {
+    episodes: Episode[],
+  };
+};
+
 export type Show = {
   id: number;
   name: string;
@@ -18,10 +24,7 @@ export type Show = {
   rating: Rating
   image: Image;
   summary: string;
-  _embedded: {
-    episodes: Episode[],
-  };
-};
+}
 
 export type Episode = {
   id: number;
