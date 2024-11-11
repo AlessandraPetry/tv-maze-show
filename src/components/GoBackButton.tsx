@@ -32,7 +32,7 @@ const GoBackButton = ({ withText = false }: GoBackButtonProps) => {
           d="M15 19l-7-7 7-7"
         />
       </svg>
-      {withText && <p className="font-bold ml-3">Go back</p>}
+      {withText && <span className="font-bold ml-3">Go back</span>}
     </button>
   );
 };
